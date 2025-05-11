@@ -1,23 +1,23 @@
 /**
  *
  * // TODO: look into topic-recursive descent parser
- * 
+ *
  * this code is shit, by restricting the DS implementation using stack only
  * i've wasted one week of my unemployed time
- * 
+ *
  * edge case:
- * char (*king)(const int (*b)(int a),int  a) 
+ * char (*king)(const int (*b)(int a),int  a)
  * int (*signal(int, void (*fp)(int)))(int)
  * int (*f[])()
  *
- * Dcl :
- *  - * dir-dcl
+ * dcl :
+ *  - *dir-dcl
  * dir-dcl:
- *  - name via tokentype
- *  - (dcl) via tokentype
- *  - dir-dcl[] via gettoken
- *  - dir-dcl() via gettoken
- *  - dir-dcl(datatype params) via gettoken
+ *  - name
+ *  - (dcl)
+ *  - dir-dcl[]
+ *  - dir-dcl()
+ *  - dir-dcl(datatype params)
  * params:
  *  - name
  *  - *params -> prone to error due to the last element bieng discarded, thus early return is done witout disolving the last token
