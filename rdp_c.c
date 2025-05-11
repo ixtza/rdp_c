@@ -74,7 +74,6 @@ char out[MAXSIZE];
 
 int main(int argc, char const* argv[]) {
   int valid;
-  char* temp_name;
   char* temp_datatype;
   int f_type;
   while ((f_type = getdatatype()) != EOF) {
@@ -145,10 +144,8 @@ int dir_dcl() {
    * dir_dcl emphesize that it everything that enters must be a opening
    * parens or a name.
    */
-  char* temp_name;
   char* temp_datatype;
 
-  // extract name
   // extract datatype
   while (
       (type = gettoken()) == BRACKETS ||
@@ -174,9 +171,6 @@ int dir_dcl() {
         }
       } while (tokentype != ')' && strcat(out, ","));
       strcat(out, " returning");
-      // NOTE: DIR_DCL_PARAM menghabiskan seluruh bracket yang ada
-      // if (tokentype == ')') return 1;
-      // return 1;
       if (tokentype == '\n') {
         break;
       }
@@ -188,7 +182,6 @@ int dir_dcl() {
 int dir_dcl_param() {
   int type, token_size, ns;
   char* p;
-  char* temp_name;
   char* temp_datatype;
 
   if (tokentype == NAME) {
@@ -261,9 +254,11 @@ int dir_dcl_param() {
     return 1;
   }
 
-  // This dissolves closing parenthesis
-  // causes premature decay. dir_dcl_param only handle what's inside the parens
-  // if there were other, must be readded to the buffer.
+  /**
+   * This dissolves closing parens, which can cause premature parens decay.
+   * No need to readded it to the buffer,
+   * but handle special case like '*' and ',' on its own.
+   */
   while ((type = gettoken()) == BRACKETS) {
     strcat(out, " array");
     strcat(out, token);
@@ -280,7 +275,6 @@ int gettoken() {
   char* p = token;
   while ((c = getch()) == ' ' || c == '\t');
   if (c == '(') {
-    // while ((c = getch()) == ' ' || c == '\t');
     if ((c = getch()) == ')') {
       strcpy(token, "()");
       return tokentype = PARENS;
